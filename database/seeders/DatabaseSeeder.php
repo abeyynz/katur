@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Discussion;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -19,7 +20,8 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             OrganizationSeeder::class,
             UserSeeder::class,
-            InformationSeeder::class
+            InformationSeeder::class,
+            DiscussionSeeder::class
         ]);
     }
 }

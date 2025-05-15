@@ -46,7 +46,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    
+
     public function posts()
     {
         return $this->hasMany(Post::class);
@@ -57,5 +57,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Like::class);
     }
+
+    public function discussions()
+    {
+        return $this->belongsToMany(Discussion::class, 'discussion_user', 'user_id', 'discussion_id')
+                    ->withTimestamps();
+    }
+
 
 }

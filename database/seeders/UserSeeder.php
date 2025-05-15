@@ -34,6 +34,16 @@ class UserSeeder extends Seeder
         ]);
         $anggota->assignRole('anggota');
 
+        $anggota = User::create([
+            'name' => 'Ana',
+            'email' => 'ana@karangtaruna.com',
+            'password' => Hash::make('password123'),
+            'type' => 'anggota',
+            'organization_id' => 6,
+        ]);
+        $anggota->assignRole('anggota');
+
+
         // Seeder untuk Mitra
         $mitra = User::create([
             'name' => 'Mitra Karang Taruna',

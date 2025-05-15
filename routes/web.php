@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\DiscussController;
+use App\Http\Controllers\DiscussionController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
@@ -53,7 +53,16 @@ Route::middleware(['auth', 'role:mitra'])->group(function () {
 });
 
 Route::get('/informations/{id}', [InformationController::class, 'show'])->name('informations.show');
-Route::get('/diskusi', [DiscussController::class, 'index'])->name('discuss.index');
+// Route::get('/diskusi', [DiscussController::class, 'index'])->name('discuss.index');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/diskusi', [DiscussionController::class, 'index'])->name('discuss.index');
+    Route::post('/diskusi', [DiscussionController::class, 'store'])->name('discuss.store');
+    Route::get('/diskusi/{id}', [DiscussionController::class, 'show'])->name('discussions.show');
+    Route::post('/diskusi/{id}/gabung', [DiscussionController::class, 'join'])->name('discussions.join');
+    Route::post('/discussions/{id}/message', [DiscussionController::class, 'storeMessage'])->name('discussions.message');
+    Route::post('/discussions/{id}/leave', [DiscussionController::class, 'leave'])->name('discussions.leave');
+
+});
 
 
 Route::get('/dashboard', [PostController::class, 'myPosts'])
