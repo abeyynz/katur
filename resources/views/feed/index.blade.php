@@ -1,65 +1,15 @@
-{{-- <x-app-layout>
-    <div class="max-w-2xl mx-auto py-8">
-        <h1 class="text-2xl font-bold mb-6">Kegiatan Karang Taruna</h1>
-
-        @foreach ($posts as $post)
-            <div class="mb-6 border rounded p-4 shadow">
-                <div class="mb-2 text-sm text-gray-500">Diposting oleh {{ $post->user->name }} - {{ $post->created_at->diffForHumans() }}</div>
-                <img src="{{ asset('storage/' . $post->image_url) }}" class="w-full rounded mb-2">
-                <p>{{ $post->caption }}</p>
-
-                <div class="mt-4 border-t pt-2">
-                    <h4 class="font-semibold mb-2">Komentar</h4>
-
-                    @php
-                        $firstComment = $post->comments->first();
-                    @endphp
-
-                    @if ($firstComment)
-                        <div class="mb-2 text-sm border rounded p-2">
-                            <strong>{{ $firstComment->user->name }}</strong>: {{ $firstComment->content }}
-                        </div>
-                    @else
-                        <p class="text-sm text-gray-500">Belum ada komentar.</p>
-                    @endif
-
-                    <a href="{{ route('posts.show', $post->id) }}" class="text-blue-600 hover:underline text-sm">Lihat semua komentar</a>
-
-                    @auth
-                        <form action="{{ route('comments.store') }}" method="POST" class="mt-2">
-                            @csrf
-                            <input type="hidden" name="post_id" value="{{ $post->id }}">
-                            <textarea name="content" rows="2" class="w-full p-2 border rounded" placeholder="Tulis komentar..."></textarea>
-                            <button type="submit" class="mt-2 bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Kirim</button>
-                        </form>
-                    @endauth
-                </div>
-
-            </div>
-        @endforeach
-
-        {{ $posts->links() }}
-
-        @auth
-            <a href="{{ route('posts.create') }}"
-               class="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-5 rounded-full shadow-lg transition duration-300 ease-in-out z-50">
-                + Buat Postingan
-            </a>
-        @endauth
-    </div>
-</x-app-layout> --}}
 
 <x-app-layout>
     <div class="max-w-6xl mx-auto py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="lg:col-span-2">
             @foreach ($posts as $post)
-                <div class="mb-6 border rounded p-4 shadow">
+                <div class="mb-6 border border-[#DCDCDC] rounded p-4 shadow bg-white">
                     <div class="mb-2 text-sm text-gray-500">Diposting oleh {{ $post->user->name }} - {{ $post->created_at->diffForHumans() }}</div>
                     <img src="{{ asset('storage/' . $post->image_url) }}" class="w-full rounded mb-2">
                     <p>{{ $post->caption }}</p>
 
                     <div class="mt-4 border-t pt-2">
-                        <h4 class="font-semibold mb-2">Komentar</h4>
+                        <h4 class="font-semibold mb-2 text-[#FF6B00]">Komentar</h4>
 
                         @php
                             $firstComment = $post->comments->first();
@@ -73,14 +23,14 @@
                             <p class="text-sm text-gray-500">Belum ada komentar.</p>
                         @endif
 
-                        <a href="{{ route('posts.show', $post->id) }}" class="text-blue-600 hover:underline text-sm">Lihat semua komentar</a>
+                        <a href="{{ route('posts.show', $post->id) }}" class="text-[#FF6B00] hover:underline text-sm">Lihat semua komentar</a>
 
                         @auth
                             <form action="{{ route('comments.store') }}" method="POST" class="mt-2">
                                 @csrf
                                 <input type="hidden" name="post_id" value="{{ $post->id }}">
                                 <textarea name="content" rows="2" class="w-full p-2 border rounded" placeholder="Tulis komentar..."></textarea>
-                                <button type="submit" class="mt-2 bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">Kirim</button>
+                                <button type="submit" class="mt-2 bg-[#FF6B00] text-white px-4 py-1 rounded hover:bg-orange-700">Kirim</button>
                             </form>
                         @endauth
                     </div>

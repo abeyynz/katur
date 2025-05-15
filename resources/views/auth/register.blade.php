@@ -92,6 +92,19 @@
                     <x-input-error :messages="$errors->get('role')" class="mt-1 text-red-500 text-sm" />
                 </div>
 
+                <div>
+                    <label for="organization_id" class="block font-semibold text-gray-800 mb-1">Pilih Karang Taruna</label>
+                    <select id="organization_id" name="organization_id" required class="block w-full border border-[#DCDCDC] rounded px-3 py-2 focus:ring-[#FF6B00] focus:border-[#FF6B00]">
+                        <option value="">Pilih organisasi</option>
+                        @foreach ($organizations as $org)
+                            <option value="{{ $org->id }}" {{ old('organization_id') == $org->id ? 'selected' : '' }}>
+                                {{ $org->name }} ({{ $org->desa_kelurahan }}, {{ $org->kecamatan }})
+                            </option>
+                        @endforeach
+                    </select>
+                    <x-input-error :messages="$errors->get('organization_id')" class="mt-1 text-red-500 text-sm" />
+                </div>
+
                 {{-- Password --}}
                 <div>
                     <label for="password" class="block font-semibold text-gray-800 mb-1">Password</label>
@@ -117,4 +130,25 @@
             </form>
         </div>
     </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const roleSelect = document.getElementById('role');
+        const orgSelect = document.getElementById('organization_id');
+
+        function toggleOrganization() {
+            if (roleSelect.value === 'anggota') {
+                orgSelect.disabled = false;
+            } else {
+                orgSelect.disabled = true;
+                orgSelect.value = ''; // reset pilihan kalau mau
+            }
+        }
+
+        roleSelect.addEventListener('change', toggleOrganization);
+
+        // Inisialisasi saat load halaman
+        toggleOrganization();
+    });
+</script>
+
 </x-guest-layout>
