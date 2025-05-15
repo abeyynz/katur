@@ -25,25 +25,43 @@ class InformationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
+            'title' => 'required',
+            'description' => 'required',
             'category' => 'required|in:perlombaan,pelatihan,lowongan',
+            'deadline' => 'nullable|date',
+            'link' => 'nullable|url|max:255',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('info', 'public');
+        }
 
         Information::create([
             'title' => $request->title,
             'description' => $request->description,
             'category' => $request->category,
-            'user_id' => Auth::id(), // jika kamu simpan user pembuatnya
+            'deadline' => $request->deadline,
+            'link' => $request->link,
+            'image' => $imagePath,
+            'user_id' => auth()->id(),
         ]);
 
-        return redirect()->route('informations.index')->with('success', 'Informasi berhasil ditambahkan!');
+        return redirect()->route('informations.index')->with('success', 'Informasi berhasil ditambahkan');
     }
+
+
+    // public function show($id)
+    // {
+    //     $info = Information::findOrFail($id);
+    //     return view('informations.show', compact('info'));
+    // }
 
     public function show($id)
     {
-        $info = Information::findOrFail($id);
-        return view('informations.show', compact('info'));
+        $information = Information::with('user')->findOrFail($id);
+        return view('informations.show', compact('information'));
     }
 
 }

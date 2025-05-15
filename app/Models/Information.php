@@ -9,9 +9,10 @@ use Spatie\Permission\Traits\HasRoles;
 class Information extends Model
 {
     use HasFactory, HasRoles;
-
-    protected $fillable = ['title', 'description', 'category', 'user_id'];
-
+    protected $table = 'informations';
+    protected $fillable = [
+        'title', 'description', 'category', 'deadline', 'link','image', 'user_id'
+    ];
 
     public function user()
     {

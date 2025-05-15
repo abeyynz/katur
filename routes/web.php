@@ -41,6 +41,18 @@ Route::group(['middleware' => ['auth', 'role:mitra']], function () {
     Route::post('/informasi', [InformationController::class, 'store'])->name('informations.store');
 });
 
+Route::get('/information', [InformationController::class, 'index'])->name('informations.index');
+
+// Jika mitra ingin menambahkan
+Route::get('/information/create', [InformationController::class, 'create'])->middleware('role:mitra')->name('informations.create');
+Route::post('/information', [InformationController::class, 'store'])->middleware('role:mitra')->name('informations.store');
+
+Route::middleware(['auth', 'role:mitra'])->group(function () {
+    Route::get('/informations/create', [InformationController::class, 'create'])->name('informations.create');
+    Route::post('/informations', [InformationController::class, 'store'])->name('informations.store');
+});
+
+Route::get('/informations/{id}', [InformationController::class, 'show'])->name('informations.show');
 Route::get('/diskusi', [DiscussController::class, 'index'])->name('discuss.index');
 
 

@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('information', function (Blueprint $table) {
+        Schema::create('informations', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->string('category'); // 'perlombaan', 'pelatihan', atau 'lowongan'
-            $table->string('image_url')->nullable(); // opsional kalau mau upload gambar
-            $table->unsignedBigInteger('user_id'); // untuk tahu siapa yang post
+            $table->string('category'); // perlombaan, pelatihan, lowongan
+            $table->string('deadline')->nullable(); // deadline atau tanggal event
+            $table->string('image')->nullable(); // untuk gambar (path di storage)
+            $table->unsignedBigInteger('user_id'); // relasi ke users
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
