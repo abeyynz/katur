@@ -50,7 +50,6 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->hasMany(Post::class);
-
     }
 
     public function likes()
@@ -61,8 +60,16 @@ class User extends Authenticatable
     public function discussions()
     {
         return $this->belongsToMany(Discussion::class, 'discussion_user', 'user_id', 'discussion_id')
-                    ->withTimestamps();
+            ->withTimestamps();
     }
 
+    public function messages()
+    {
+        return $this->hasMany(DiscussionMessage::class);
+    }
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
 
 }
