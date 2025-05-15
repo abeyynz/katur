@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Discussion;
+use App\Models\Information;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,16 +13,35 @@ class PostController extends Controller
 {
 
     public function publicFeed()
-    {
-        $posts = Post::with('user')->latest()->paginate(10);
-        return view('feed.index', compact('posts'));
-        $posts = Post::with(['user', 'comments' => function ($query) {
-            $query->latest()->limit(1);
-        }, 'comments.user'])
+{
+    $youthOfTheMonth = User::withCount(['posts', 'messages'])
+        ->orderByRaw('(posts_count + messages_count) DESC')
+        ->first();
+
+    $popularDiscussions = Discussion::withCount('messages')
+        ->orderByDesc('messages_count')
+        ->take(4)
+        ->get();
+
+    $latestInformations = Information::whereNotNull('deadline')
+        ->orderBy('deadline')
+        ->take(3)
+        ->get();
+
+    $posts = Post::with(['user', 'comments' => function ($query) {
+        $query->latest()->limit(1);
+    }, 'comments.user'])
         ->latest()
         ->paginate(10);
 
-    }
+    return view('feed.index', compact(
+        'youthOfTheMonth',
+        'popularDiscussions',
+        'latestInformations',
+        'posts'
+    ));
+}
+
 
     public function create()
     {

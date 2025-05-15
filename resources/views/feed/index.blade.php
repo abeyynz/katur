@@ -141,61 +141,45 @@
         </div>
 
         {{-- Sidebar --}}
-        <div class="space-y-6">
-            {{-- Youth of the Month --}}
-            <div class="bg-white border border-[#DCDCDC] rounded p-4 shadow text-center">
-                <h3 class="text-lg font-semibold mb-3 text-[#FF6B00]">Youth of the Month</h3>
-                <img src="{{ asset('img/profil.png') }}" alt="Man of the Month" class="w-24 h-24 rounded-full mx-auto mb-2 object-cover">
-                <a href="/profile" class="font-bold text-black hover:underline">Ahsan Mudzakkir</a>
-                <p class="text-sm text-gray-500">Aktif di 9 kegiatan dan 6 diskusi</p>
-            </div>
+        {{-- Sidebar --}}
+<div class="space-y-6">
+    {{-- Youth of the Month --}}
+    <div class="bg-white border border-[#DCDCDC] rounded p-4 shadow text-center">
+        <h3 class="text-lg font-semibold mb-3 text-[#FF6B00]">Youth of the Month</h3>
+        <img src="{{ asset('img/profil.png') }}" alt="Man of the Month" class="w-24 h-24 rounded-full mx-auto mb-2 object-cover">
+        <a href="{{ route('profile.show', $youthOfTheMonth->id) }}" class="font-bold text-black hover:underline">{{ $youthOfTheMonth->name }}</a>
+        <p class="text-sm text-gray-500">
+            Aktif di {{ $youthOfTheMonth->posts_count }} kegiatan dan {{ $youthOfTheMonth->discussion_messages_count }} diskusi
+        </p>
+    </div>
 
-            {{-- Diskusi Terpopuler --}}
-            <div class="bg-white border border-[#DCDCDC] rounded p-4 shadow">
-                <h3 class="text-lg font-semibold mb-3 text-[#FF6B00]">Diskusi Terpopuler</h3>
-                <ul class="space-y-2 text-sm">
-                    <li>
-                        <a href="#" class="text-black hover:underline font-medium">Apakah Cianjur berpotensi maju?</a>
-                        <p class="text-gray-500 text-xs">198 komentar</p>
-                    </li>
-                    <li>
-                        <a href="#" class="text-black hover:underline font-medium">Pengembangan Karir Pemuda</a>
-                        <p class="text-gray-500 text-xs">145 komentar</p>
-                    </li>
-                    <li>
-                        <a href="#" class="text-black hover:underline font-medium">Pemanfaatan Lahan Kosong</a>
-                        <p class="text-gray-500 text-xs">80 komentar</p>
-                    </li>
-                    <li>
-                        <a href="#" class="text-black hover:underline font-medium">Pengelolaan sampah</a>
-                        <p class="text-gray-500 text-xs">65 komentar</p>
-                    </li>
+    {{-- Diskusi Terpopuler --}}
+    <div class="bg-white border border-[#DCDCDC] rounded p-4 shadow">
+        <h3 class="text-lg font-semibold mb-3 text-[#FF6B00]">Diskusi Terpopuler</h3>
+        <ul class="space-y-2 text-sm">
+            @foreach ($popularDiscussions as $discussion)
+                <li>
+                    <a href="{{ route('discussions.show', $discussion->id) }}" class="text-black hover:underline font-medium">{{ $discussion->title }}</a>
+                    <p class="text-gray-500 text-xs">{{ $discussion->messages_count }} komentar</p>
+                </li>
+            @endforeach
+        </ul>
+    </div>
 
+    {{-- Informasi Terbaru --}}
+    <div class="bg-white border border-[#DCDCDC] rounded p-4 shadow">
+        <h3 class="text-lg font-semibold mb-3 text-[#FF6B00]">Informasi Terbaru</h3>
+        <ul class="space-y-2 text-sm">
+            @foreach ($latestInformations as $info)
+                <li>
+                    <a href="{{ route('informations.show', $info->id) }}" class="text-black hover:underline font-medium">{{ $info->title }}</a>
+                    <p class="text-gray-500 text-xs">deadline : {{ \Carbon\Carbon::parse($info->deadline)->format('d F Y') }}</p>
+                </li>
+            @endforeach
+        </ul>
+    </div>
+</div>
 
-                </ul>
-            </div>
-
-            {{-- Kegiatan Populer --}}
-            <div class="bg-white border border-[#DCDCDC] rounded p-4 shadow">
-                <h3 class="text-lg font-semibold mb-3 text-[#FF6B00]">Informasi Terbaru</h3>
-                <ul class="space-y-2 text-sm">
-                    <li>
-                        <a href="#" class="text-black hover:underline font-medium">Pelatihan UMKM</a>
-                        <p class="text-gray-500 text-xs">deadline : 17 April 2025</p>
-                    </li>
-                    <li>
-                        <a href="#" class="text-black hover:underline font-medium">Pendaftaran panitia Agustusan</a>
-                        <p class="text-gray-500 text-xs">deadline : 17 Juni 2025</p>
-                    </li>
-                    <li>
-                        <a href="#" class="text-black hover:underline font-medium">Barista di Kopi Kita</a>
-                        <p class="text-gray-500 text-xs">deadline : 27 April 2025</p>
-                    </li>
-                </ul>
-            </div>
-
-
-        </div>
         @auth
             {{-- <a href="{{ route('posts.create') }}"
                class="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-5 rounded-full shadow-lg transition duration-300 ease-in-out z-50">
